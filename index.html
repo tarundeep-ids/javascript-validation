@@ -71,7 +71,9 @@
     
 </head>
 <script type="text/javascript">
-   
+   function emailFormat(str){
+  return /[@.]/g.test(str);
+}
 
    function validateInput(input){
       console.log('Validate input called');
@@ -80,19 +82,17 @@
       var errorElement = document.getElementById('validation-message');
       //Name Required
       if(input.value === ""){
-         errorElement.innerHTML = "This field is required";
+         errorElement.innerHTML = "This field is required *";
       }else{
         errorElement.innerHTML = "";
       }
       //Name Max Length
       var errorlenElement = document.getElementById('max-message');
-      if(input.value.length > 50){
-         errorlenElement.innerHTML = "Maximum 50 character are allowed";
+      if(input.value.length > 25){
+         errorlenElement.innerHTML = "Maximum 25 character are allowed *";
       }else{
         errorlenElement.innerHTML = "";
       }
-
-  
     }
     
     //Email Required
@@ -100,13 +100,17 @@
       console.log('Validate input called');
       console.log('Input value', input.value );
 
-      var errorElement = document.getElementById('email-message');
+      var errorElement = document.getElementById('email-message1');
+      var validEmailFormat = document.getElementById('email-message2');
       if(input.value === ""){
-         errorElement.innerHTML = "This field is required";
+         errorElement.innerHTML = "This field is required *";
       }else{
         errorElement.innerHTML = "";
       }
-       
+        if(input.value===!emailFormat()){
+        validEmailFormat.innerHTML="Please Write Valid Email *";
+      }
+  
     }
 
      //Password Required
@@ -114,25 +118,26 @@
       console.log('Validate input called');
       console.log('Input value', input.value );
 
-      var errorElement = document.getElementById('password-message');
+      var errorElement = document.getElementById('password-message1');
+      var errorMinElement = document.getElementById('password-message2');
+      var errorMaxElement = document.getElementById('password-message3');
       if(input.value === ""){
-        errorElement.innerHTML = "This field is required";
+        errorElement.innerHTML = "This field is required *";
         return;
       }else{
         errorElement.innerHTML = "";
       }
       if(input.value.length > 15){
-        errorElement.innerHTML = "Maximum 15 character are allowed";
+        errorMaxElement.innerHTML = "Maximum 15 character are allowed *";
       }else{
-        errorElement.innerHTML = "";
+        errorMaxElement.innerHTML = "";
       }
-
       if(input.value.length < 8){
-        errorElement.innerHTML = "Minimum 8 character are allowed";
+        errorMinElement.innerHTML = "Minimum 8 character are allowed *";
       }else{
-        errorElement.innerHTML = "";
-      }    
-
+        errorMinElement.innerHTML = "";
+      }
+     
     }
      //Confirm-Password Required
     function validateConfirmPassword(input){
@@ -145,8 +150,49 @@
       }else{
         errorElement.innerHTML = "";
       }
-    }
+    
+   }
 
+     //Phone Validation
+    function validatePhone(input){
+    console.log('Validate input called');
+    console.log('Input value', input.value );
+
+    var errorElement = document.getElementById('phone-message1');
+    // Required
+    if(input.value === ""){
+       errorElement.innerHTML = "This field is required *";
+       return;
+    }else{
+      errorElement.innerHTML = "";
+    }
+    // Max Length
+    var errorlenElement = document.getElementById('phone-message2');
+    if(input.value.length > 10){
+       errorlenElement.innerHTML = "Maximum 10 character are allowed *";  
+    }else{
+       errorlenElement.innerHTML = "";
+    }
+   // Min Length
+    var errorMinlenElement = document.getElementById('phone-message3');
+     if(input.value.length < 10){
+      errorMinlenElement.innerHTML = "Minimum 10 character are allowed *";
+    }else{
+      errorMinElement.innerHTML = "";
+      }
+    // Not a number validation
+   /* var errorNotNumberElement = document.getElementById('phone-message4');
+    console.log('hi',errorNotNumberElement)
+    if(isNaN(errorNotNumberElement)){
+      errorNotNumberElement.innerHTML = "Character Not Allowed *";
+     }else{
+      errorNotNumberElement.innerHTML = "";
+     }
+  */
+  }
+    
+
+ 
     //Radio Required
    
     function validateRadio(){
@@ -155,50 +201,63 @@
       if (!gender.checked) {
         errorElement.innerHTML = "Please Select Your Gender"; 
       }
-    }
-   
+      else{
+        errorElement.innerHTML = "";
+      }
+    } 
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Spirax');
 </style>
+ <body>
+  <div class="main">
   <form class="wrapper">
     <h2>Sign Up Form</h2>
     <div class="name-content bottom-space">
       <input onchange="validateInput(this)" onblur="validateInput(this)" type=text name="t1"          placeholder="Name" id="name-field">
-       <span id="validation-message"></span>
-       <span id="max-message"></span>
+       <div><span class="error-message" id="validation-message"></span></div>
+      <div> <span class="error-message" id="max-message"></span></div>
     </div>
     <div class="email-content bottom-space">
       <input onchange="validateEmail(this)" onblur="validateEmail(this)" type=text name="t2" id="email-field" placeholder="Email">
-       <span id="email-message"></span>
+       <div><span class="error-message" id="email-message1"></span></div>
+       <div><span class="error-message" id="email-message2"></span></div>
     </div>
     <div class="password-content bottom-space">
       <input onchange="validatePassword(this)" onblur="validatePassword(this)" type=text name="t3"          id="password-field" placeholder="Password">
-      <span id="password-message"></span>
+      <div><span class="error-message" id="password-message1"></span></div>
+      <div><span class="error-message" id="password-message2"></span></div>
+     <div> <span class="error-message" id="password-message3"></span></div>
     </div>
     <div class="confirm-password-content bottom-space">
       <input onchange="validateConfirmPassword(this)" onblur="validateConfirmPassword(this)" type=text     name="t4" id="confirm-field" placeholder="Confirm Password">
-      <span id="confirm-password-message"></span>
+      <div><span class="error-message" id="confirm-password-message"></span></div>
+    </div>
+     <div class="phone-content bottom-space">
+      <input onchange="validatePhone(this)" onblur="validatePhone(this)" type=text name="phn"               id="phone-field" placeholder="Phone Number">
+      <div><span class="error-message" id="phone-message1"></span></div>
+      <div><span class="error-message" id="phone-message2"></span></div>
+      <div><span class="error-message" id="phone-message3"></span></div>
+      <div><span class="error-message" id="phone-message4"></span></div>
     </div>
      <div class="radio-btn bottom-space">
       Male <input onchange="validateRadio(this)" onblur="validateRadio(this)" type=radio name="radios"       id="radio-field">
       Female <input onchange="validateRadio(this)" onblur="validateRadio(this)" type=radio name="radios"    id="radio-field">
-      Other <input onchange="validateRadio(this)" onblur="validateRadio(this)" type=radio name="radios"      id="radio-field">
-      <span id="radio-message"></span>
+      Other <input onchange="validateRadio(this)" onblur="validateRadio(this)" type=radio name="radios"     id="radio-field">
+      <div><span class="error-message" id="radio-message"></span></div>
     </div>
     <div class="checkbox-content bottom-space">
       <label for="checkbox">
-      <input  type=checkbox name="check" id="checkbox"> <span>I Agree To The <a href="#" target="_blank"> Terms & Conditions </a> </span>
+      <input  type=checkbox name="check" id="checkbox"> <span>I Agree To The Terms & Conditions </span>
       </label>
-       <span id="checkbox-required"></span>
+       <div><span id="checkbox-required"></span></div>
     </div>
      <div class="selectbox-content bottom-space">
-      <select>
+      <select class="selectdrop">
         <option value="qualification">Qualification</option>
         <option value="10th">10th</option>
         <option value="12th">12th</option>
-        <option value="Bachelor">Bachelor</option>
         <option value="Master">Master</option>
         <option value="PHD">PHD</option>
       </select>
@@ -207,8 +266,11 @@
       <input type=submit name="t5" id="sign-up-field" placeholder="Sign Up">
     </div>
   </form>
-   
-  Here is my new changes
+</div>
+
+
+
+
 
 <!-- Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
